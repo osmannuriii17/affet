@@ -252,33 +252,16 @@
             const randomX = Math.floor(Math.random() * maxX);
             const randomY = Math.floor(Math.random() * maxY);
             
-            hayirBtn.style.position = 'absolute'; // fixed yerine absolute kullan
+            hayirBtn.style.position = 'absolute';
             hayirBtn.style.left = randomX + 'px';
             hayirBtn.style.top = randomY + 'px';
-            hayirBtn.style.transition = 'all 0.1s ease'; // Daha hızlı hareket
+            hayirBtn.style.transition = 'all 0.1s ease';
             hayirBtn.style.zIndex = '1000';
         }
 
-        // Mouse yaklaştığında daha sık hareket etsin
-        let moveInterval;
-        
-        hayirBtn.addEventListener('mouseover', () => {
-            moveButton();
-            // Mouse üzerindeyken her 300ms'de bir hareket et
-            clearInterval(moveInterval);
-            moveInterval = setInterval(moveButton, 300);
-        });
-
-        hayirBtn.addEventListener('mouseout', () => {
-            // Mouse uzaklaşınca normal aralığa dön
-            clearInterval(moveInterval);
-            moveInterval = setInterval(moveButton, 2000);
-        });
-
+        // Sadece mouse üzerine geldiğinde ve dokunulduğunda hareket etsin
+        hayirBtn.addEventListener('mouseover', moveButton);
         hayirBtn.addEventListener('touchstart', moveButton);
-        
-        // Başlangıç hareketi
-        moveInterval = setInterval(moveButton, 2000);
 
         document.getElementById('evet').addEventListener('click', () => {
             // Çoklu kalp oluşturma
