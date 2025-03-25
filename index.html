@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beni affeder misin sümi?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1b4d3e, #7cb342);
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Yıldızlar için */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 1s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 1; }
+        }
+
+        /* Bulutlar için */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50px;
+            animation: float 15s infinite linear;
+            pointer-events: none;
+        }
+
+        .cloud:before, .cloud:after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 50%;
+        }
+
+        .cloud:before {
+            width: 50px;
+            height: 50px;
+            top: -20px;
+            left: 10px;
+        }
+
+        .cloud:after {
+            width: 70px;
+            height: 70px;
+            top: -30px;
+            right: 10px;
+        }
+
+        @keyframes float {
+            from { transform: translateX(-150%); }
+            to { transform: translateX(150vw); }
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            min-width: 120px;
+            backdrop-filter: blur(5px);
+        }
+
+        #evet {
+            background-color: rgba(76, 175, 80, 0.8);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        #hayir {
+            background-color: rgba(255, 100, 100, 0.8);
+            color: white;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        #evet:hover {
+            background-color: rgba(56, 142, 60, 0.9);
+        }
+
+        #hayir:hover {
+            background-color: rgba(255, 80, 80, 0.9);
+        }
+
+        .heart {
+            position: fixed;
+            font-size: 3.5rem;
+            animation: flyHeart 2.5s ease-in-out;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        @keyframes flyHeart {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(2.5) rotate(180deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(3) rotate(360deg) translateY(-100vh);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="container">
+        <h1>Beni affeder misin sümi?</h1>
+        <div class="buttons">
+            <button id="evet">Evet</button>
+            <button id="hayir">Hayır</button>
+        </div>
+    </div>
+
+    <script>
+        // Yıldızları oluştur
+        const starsContainer = document.querySelector('.stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 1 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Bulutları oluştur
+        function createCloud() {
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud';
+            cloud.style.width = Math.random() * 100 + 100 + 'px';
+            cloud.style.height = '40px';
+            cloud.style.top = Math.random() * 100 + '%';
+            cloud.style.animationDuration = Math.random() * 10 + 20 + 's';
+            document.body.appendChild(cloud);
+
+            cloud.addEventListener('animationend', () => {
+                cloud.remove();
+                createCloud();
+            });
+        }
+
+        // Başlangıçta birkaç bulut oluştur
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => createCloud(), i * 3000);
+        }
+
+        const hayirBtn = document.getElementById('hayir');
+        const container = document.querySelector('.container');
+        const containerRect = container.getBoundingClientRect();
+        const buttonRect = hayirBtn.getBoundingClientRect();
+
+        function moveButton() {
+            // Container sınırlarını al
+            const containerBounds = container.getBoundingClientRect();
+            
+            // Butonun boyutlarını al
+            const buttonWidth = hayirBtn.offsetWidth;
+            const buttonHeight = hayirBtn.offsetHeight;
+            
+            // Container içinde kalacak şekilde sınırları belirle
+            const maxX = containerBounds.width - buttonWidth;
+            const maxY = containerBounds.height - buttonHeight;
+            
+            // Rastgele pozisyon hesapla (sadece container içinde)
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            hayirBtn.style.position = 'absolute'; // fixed yerine absolute kullan
+            hayirBtn.style.left = randomX + 'px';
+            hayirBtn.style.top = randomY + 'px';
+            hayirBtn.style.transition = 'all 0.1s ease'; // Daha hızlı hareket
+            hayirBtn.style.zIndex = '1000';
+        }
+
+        // Mouse yaklaştığında daha sık hareket etsin
+        let moveInterval;
+        
+        hayirBtn.addEventListener('mouseover', () => {
+            moveButton();
+            // Mouse üzerindeyken her 300ms'de bir hareket et
+            clearInterval(moveInterval);
+            moveInterval = setInterval(moveButton, 300);
+        });
+
+        hayirBtn.addEventListener('mouseout', () => {
+            // Mouse uzaklaşınca normal aralığa dön
+            clearInterval(moveInterval);
+            moveInterval = setInterval(moveButton, 2000);
+        });
+
+        hayirBtn.addEventListener('touchstart', moveButton);
+        
+        // Başlangıç hareketi
+        moveInterval = setInterval(moveButton, 2000);
+
+        document.getElementById('evet').addEventListener('click', () => {
+            // Çoklu kalp oluşturma
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 100);
+            }
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.bottom = '0';
+            // Rastgele boyut değişimi
+            const scale = 0.8 + Math.random() * 1.2;
+            heart.style.transform = `scale(${scale})`;
+            document.body.appendChild(heart);
+
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+    </script>
+</body>
+</html> 
